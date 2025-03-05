@@ -1,1 +1,2 @@
-"# PlayCTF\nPlatform to host CTF!" 
+# PlayCTF
+Platform to host CTF!

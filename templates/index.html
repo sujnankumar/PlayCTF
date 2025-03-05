@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome to Crypton Club{% endblock %}
+
+{% block content %}
+<div class="text-center my-5">
+    <h1 class="display-3 fw-bold">Welcome to <span class="text-primary">Crypton Club</span></h1>
+    <p class="lead">A place for hands-on problem-solving in cybersecurity and ethical hacking.</p>
+
+    <div class="mt-4">
+        <a href="{{ url_for('auth.register') }}" class="btn btn-lg btn-success me-3">Join Now</a>
+        <a href="{{ url_for('auth.login') }}" class="btn btn-lg btn-outline-light">Login</a>
+    </div>
+</div>
+
+<!-- Background Animation -->
+<style>
+    body {
+        background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+        color: white;
+        height: 100vh;
+    }
+    .container {
+        animation: fadeIn 1.5s ease-in-out;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+</style>
+{% endblock %}

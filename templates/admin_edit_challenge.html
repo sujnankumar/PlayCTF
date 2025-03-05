@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Edit Challenge{% endblock %}
+
+{% block content %}
+<h2>Edit Challenge</h2>
+<ul>
+    {% for challenge in challenges %}
+        <li>
+            <form method="POST" action="{{ url_for('admin.edit_challenge', challenge_id=challenge.id) }}">
+                <label for="title">Title:</label><br/>
+                <input type="text" id="title" name="title" value="{{ challenge.title }}" class="form-control d-inline w-50">
+                <br/>
+
+                <label for="description">Description:</label><br/>
+                <textarea id="description" name="description" class="form-control d-inline w-50">{{ challenge.description }}</textarea><br/>
+
+                <label for="category">Category:</label><br/>
+                <input type="text" id="category" name="category" value="{{ challenge.category }}" class="form-control d-inline w-50"><br/>
+
+                <label for="difficulty">Difficulty:</label><br/>
+                <input type="text" id="difficulty" name="difficulty" value="{{ challenge.difficulty }}" class="form-control d-inline w-50"><br/>
+
+                <label for="score">Score:</label><br/>
+                <input type="number" id="score" name="score" value="{{ challenge.score }}" class="form-control d-inline w-50"><br/>
+
+                <label for="flags">Flags:</label><br/>
+                <textarea id="flags" name="flags" class="form-control d-inline w-50">{{ challenge.flags | map(attribute='flag') | join(', ') }}</textarea><br/>
+                
+                <button type="submit" class="btn btn-warning btn-sm mt-2">Update</button>
+            </form>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

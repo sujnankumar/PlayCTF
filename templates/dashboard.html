@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<h2 class="text-center">Available Challenges</h2>
+<div class="row">
+    {% for challenge in challenges %}
+    <div class="col-md-4">
+        <div class="card bg-secondary text-white mb-3">
+            <div class="card-body">
+                <h5 class="card-title">{{ challenge.title }}</h5>
+                <p class="card-text"><strong>Category:</strong> {{ challenge.category }}</p>
+                <p class="card-text"><strong>Difficulty:</strong> {{ challenge.difficulty }}</p>
+                <p class="card-text"><strong>Score:</strong> {{ challenge.score }} Points</p>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#challengeModal{{ challenge.id }}">
+                    View & Submit Flag
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Challenge Modal -->
+    <div class="modal fade" id="challengeModal{{ challenge.id }}" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content bg-dark">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ challenge.title }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>{{ challenge.description }}</p>
+                    <form method="POST" action="{{ url_for('main.submit_flag') }}">
+                        <input type="hidden" name="challenge_id" value="{{ challenge.id }}">
+                        <input type="text" name="flag" class="form-control" placeholder="Enter Flag" required>
+                        <button type="submit" class="btn btn-success mt-2">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

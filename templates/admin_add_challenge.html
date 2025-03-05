@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Add Challenge{% endblock %}
+
+{% block content %}
+<h2>Add a New Challenge</h2>
+<form method="POST" action="{{ url_for('admin.add_challenge') }}">
+    <input type="text" name="title" placeholder="Title" class="form-control mb-2">
+    <textarea name="description" placeholder="Description" class="form-control mb-2"></textarea>
+    <input type="text" name="category" placeholder="Category" class="form-control mb-2">
+    <input type="text" name="difficulty" placeholder="Difficulty" class="form-control mb-2">
+    <input type="number" name="score" placeholder="Score" class="form-control mb-2">
+    <input type="text" name="flags" placeholder="Flags (comma-separated)" class="form-control mb-2">
+    <button type="submit" class="btn btn-success">Add Challenge</button>
+</form>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<h2 class="text-center">Admin Dashboard</h2>
+
+<div class="container mt-4">
+    <h4>Challenge Management</h4>
+    <ul>
+        <li><a href="{{ url_for('admin.add_challenge_page') }}" class="btn btn-success">Add Challenge</a></li>
+        <li><a href="{{ url_for('admin.remove_challenge_page') }}" class="btn btn-danger">Remove Challenge</a></li>
+        <li><a href="{{ url_for('admin.edit_challenge_page') }}" class="btn btn-warning">Edit Challenge</a></li>
+    </ul>
+
+    <h4>User Management</h4>
+    <ul>
+        <li><a href="{{ url_for('admin.add_user_page') }}" class="btn btn-success">Add User</a></li>
+        <li><a href="{{ url_for('admin.remove_user_page') }}" class="btn btn-danger">Remove User</a></li>
+        <li><a href="{{ url_for('admin.edit_user_page') }}" class="btn btn-warning">Edit User</a></li>
+    </ul>
+</div>
+{% endblock %}

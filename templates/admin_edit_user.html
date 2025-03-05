@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Edit User{% endblock %}
+
+{% block content %}
+<h2>Edit User</h2>
+<ul>
+    {% for user in users %}
+        <li>
+            <form method="POST" action="{{ url_for('admin.edit_user', user_id=user.id) }}">
+                <input type="text" name="username" value="{{ user.username }}" class="form-control d-inline w-25">
+                <input type="password" name="password" placeholder="New Password" class="form-control d-inline w-25">
+                <button type="submit" class="btn btn-warning btn-sm">Update</button>
+            </form>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}
