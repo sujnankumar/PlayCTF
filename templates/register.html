@@ -20,7 +20,7 @@
                                 <span class="input-group-text bg-secondary border-0">
                                     <i class="bi bi-person text-white"></i>
                                 </span>
-                                {{ form.username(class="form-control bg-dark border-secondary", placeholder="Choose a username", required=True) }}
+                                {{ form.username(class="form-control bg-dark text-white border-secondary", placeholder="Choose a username", required=True) }}
                                 <div class="invalid-feedback">
                                     Please enter a username.
                                 </div>
@@ -33,7 +33,7 @@
                                 <span class="input-group-text bg-secondary border-0">
                                     <i class="bi bi-lock text-white"></i>
                                 </span>
-                                {{ form.password(class="form-control bg-dark border-secondary", placeholder="Create a password", required=True) }}
+                                {{ form.password(class="form-control bg-dark text-white border-secondary", placeholder="Create a password", required=True) }}
                                 <div class="invalid-feedback">
                                     Please enter a password.
                                 </div>
@@ -46,7 +46,7 @@
                                 <span class="input-group-text bg-secondary border-0">
                                     <i class="bi bi-lock-fill text-white"></i>
                                 </span>
-                                {{ form.confirm_password(class="form-control bg-dark border-secondary", placeholder="Confirm your password", required=True) }}
+                                {{ form.confirm_password(class="form-control bg-dark text-white border-secondary", placeholder="Confirm your password", required=True) }}
                                 <div class="invalid-feedback">
                                     Please confirm your password.
                                 </div>
@@ -71,7 +71,7 @@
 </div>
 
 <!-- Bootstrap Form Validation -->
-<script>
+<!-- <script>
     (function () {
         'use strict'
         const forms = document.querySelectorAll('.needs-validation')
@@ -85,5 +85,5 @@
             }, false)
         })
     })()
-</script>
+</script> -->
 {% endblock %}

@@ -21,9 +21,10 @@
             <div class="row row-cols-1 row-cols-md-3 g-4">
                 {% for challenge in category.list %}
                 <div class="col">
-                    <div id="challengeCard{{ challenge.id }}" class="card h-100 {% if (challenge.id) in solved_challenges %}bg-success{% else %}bg-dark{% endif %} text-white border-0 shadow-sm transition-hover">
+                    <div id="challengeCard{{ challenge.id }}" data-bs-toggle="modal" 
+                    data-bs-target="#challengeModal{{ challenge.id }}" class="card h-100 {% if (challenge.id) in solved_challenges %}bg-success{% else %}bg-dark{% endif %} text-white text-center border-0 shadow-sm transition-hover">
                         <div class="card-body p-4">
-                            <h5 class="card-title fw-bold text-primary mb-3">{{ challenge.title }}</h5>
+                            <h2 class="card-title fw-bold text-primary mb-3">{{ challenge.title }}</h2>
                             <div class="d-flex flex-column gap-2 mb-4">
                                 <p class="card-text mb-0">
                                     <span class="badge 
@@ -36,11 +37,11 @@
                                 </p>
                                 <p class="card-text mb-0"><span class="badge bg-primary"><i class="bi bi-star me-1"></i> {{ challenge.score }} Points</span></p>
                             </div>
-                            <button class="btn btn-outline-primary w-100 fw-semibold" 
+                            <!-- <button class="btn btn-outline-primary w-100 fw-semibold" 
                                     data-bs-toggle="modal" 
                                     data-bs-target="#challengeModal{{ challenge.id }}">
                                 <i class="bi bi-eye me-2"></i>View & Submit Flag
-                            </button>
+                            </button> -->
                         </div>
                     </div>
                 </div>
@@ -49,7 +50,7 @@
                 <div class="modal fade" id="challengeModal{{ challenge.id }}" tabindex="-1" aria-labelledby="challengeModalLabel{{ challenge.id }}" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content bg-dark text-white border-0 shadow-lg">
-                            <div class="modal-header border-0">
+                            <div class="modal-header border-0 ml-10">
                                 <h5 class="modal-title fw-bold text-primary" id="challengeModalLabel{{ challenge.id }}">{{ challenge.title }}</h5>
                                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
@@ -109,7 +110,7 @@
         padding: 0.4em 0.8em;
     }
     .bg-success {
-        background-color: #31ff49 !important; /* Bootstrap's success green */
+        background-color: #acffb6 !important; /* Bootstrap's success green */
     }
     .notice {
         padding: 1rem;

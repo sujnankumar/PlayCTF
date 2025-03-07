@@ -37,6 +37,9 @@ def submit_flag():
     challenge_id = request.form.get('challenge_id')
     submitted_flag = request.form.get('flag')
 
+    if submitted_flag.strip() == '':
+        return jsonify({"message": "Enter flag first!", "category": "warning"}), 400
+
     challenge = Challenge.query.get(challenge_id)
     if not challenge:
         return jsonify({"message": "Challenge not found!", "category": "danger"}), 400
