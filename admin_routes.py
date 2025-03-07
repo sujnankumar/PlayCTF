@@ -2,6 +2,8 @@ from flask import render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
 from models import Challenge, User, Flag, db
 from flask import Blueprint
+from datetime import datetime
+
 
 admin = Blueprint('admin', __name__)
 
@@ -157,7 +159,7 @@ def add_new_users():
     db.session.commit()
 
     flash("User added successfully!", "success")
-    return render_template('admin.admin_dashboard')
+    return redirect(url_for('admin.admin_dashboard'))
 
 
 # admin remove users

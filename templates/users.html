@@ -3,26 +3,123 @@
 {% block title %}Users{% endblock %}
 
 {% block content %}
-<h2 class="text-center">Users</h2>
+<div class="container py-5">
+    <!-- Header -->
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold text-primary mb-2">Community Hub</h1>
+        <p class="text-muted lead">Explore our talented hackers</p>
+    </div>
 
-<form method="GET" class="mb-3">
-    <input type="text" name="search" class="form-control" placeholder="Search users..." value="{{ search_query }}">
-</form>
+    <!-- Search Form -->
+    <div class="row justify-content-center mb-4">
+        <div class="col-lg-6">
+            <form method="GET" class="d-flex align-items-center gap-2">
+                <div class="input-group shadow-sm">
+                    <span class="input-group-text bg-dark border-secondary text-white">
+                        <i class="bi bi-search"></i>
+                    </span>
+                    <input type="text" name="search" class="form-control bg-dark text-white border-secondary" 
+                           placeholder="Search users..." value="{{ search_query }}" 
+                           aria-label="Search users">
+                </div>
+                <button type="submit" class="btn btn-primary fw-semibold">
+                    <i class="bi bi-arrow-right"></i>
+                </button>
+            </form>
+        </div>
+    </div>
 
-<table class="table table-dark table-striped">
-    <thead>
-        <tr>
-            <th>Username</th>
-            <th>Score</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for user in users %}
-        <tr>
-            <td>{{ user.username }}</td>
-            <td>{{ user.score }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+    <!-- Users Table -->
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0 bg-dark text-white">
+                <div class="card-header bg-primary text-white text-center py-3">
+                    <h3 class="mb-0 fw-bold">User List</h3>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-dark table-striped mb-0">
+                            <thead>
+                                <tr class="bg-secondary">
+                                    <th class="py-3 ps-4" style="width: 60%;">Username</th>
+                                    <th class="py-3 pe-4 text-end" style="width: 40%;">Score</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for user in users %}
+                                <tr class="user-row" 
+                                    data-bs-toggle="tooltip" data-bs-placement="top" 
+                                    title="{{ user.username }} - {{ user.score }} points">
+                                    <td class="py-3 ps-4">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <i class="bi bi-person-circle text-primary"></i>
+                                            <span class="fw-semibold">{{ user.username }}</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-3 pe-4 text-end fw-semibold">
+                                        <span class="text-primary">{{ user.score }}</span> pts
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Empty State -->
+            {% if not users %}
+            <div class="text-center mt-4">
+                <div class="alert alert-info bg-dark border-secondary text-muted" role="alert">
+                    <i class="bi bi-info-circle me-2"></i>
+                    {% if search_query %}
+                        No users found matching "{{ search_query }}".
+                    {% else %}
+                        No users available yet.
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Back Button -->
+            <div class="mt-4 text-center">
+                <a href="{{ url_for('main.dashboard') }}" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left me-2"></i>Back to Challenges
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Custom Styles -->
+<style>
+    .user-row {
+        transition: background-color 0.3s ease;
+    }
+    .user-row:hover {
+        background-color: rgba(255, 255, 255, 0.05) !important;
+    }
+    th {
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    .input-group {
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    .btn-primary {
+        border-radius: 8px;
+    }
+</style>
+
+<!-- Bootstrap Tooltip Initialization -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+        tooltipTriggerList.forEach(tooltipTriggerEl => {
+            new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    });
+</script>
 {% endblock %}

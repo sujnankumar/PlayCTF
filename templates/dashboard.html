@@ -3,42 +3,192 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-<h2 class="text-center">Available Challenges</h2>
-<div class="row">
-    {% for challenge in challenges %}
-    <div class="col-md-4">
-        <div class="card bg-secondary text-white mb-3">
-            <div class="card-body">
-                <h5 class="card-title">{{ challenge.title }}</h5>
-                <p class="card-text"><strong>Category:</strong> {{ challenge.category }}</p>
-                <p class="card-text"><strong>Difficulty:</strong> {{ challenge.difficulty }}</p>
-                <p class="card-text"><strong>Score:</strong> {{ challenge.score }} Points</p>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#challengeModal{{ challenge.id }}">
-                    View & Submit Flag
-                </button>
-            </div>
-        </div>
+<div class="container py-5">
+    <!-- Header -->
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold text-primary mb-2">Challenge Dashboard</h1>
+        <p class="text-white lead">Test your skills and earn points!</p>
     </div>
 
-    <!-- Challenge Modal -->
-    <div class="modal fade" id="challengeModal{{ challenge.id }}" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content bg-dark">
-                <div class="modal-header">
-                    <h5 class="modal-title">{{ challenge.title }}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+    <!-- Challenges by Category -->
+    {% if challenges %}
+        {% for category in challenges|groupby('category')|sort(attribute='grouper') %}
+        <div class="mb-5">
+            <h3 class="fw-bold text-white mb-4 d-flex align-items-center gap-2">
+                <i class="bi bi-folder text-primary"></i> {{ category.grouper|capitalize }}
+                <span class="badge bg-primary ms-2">{{ category.list|length }}</span>
+            </h3>
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                {% for challenge in category.list %}
+                <div class="col">
+                    <div id="challengeCard{{ challenge.id }}" class="card h-100 {% if (challenge.id) in solved_challenges %}bg-success{% else %}bg-dark{% endif %} text-white border-0 shadow-sm transition-hover">
+                        <div class="card-body p-4">
+                            <h5 class="card-title fw-bold text-primary mb-3">{{ challenge.title }}</h5>
+                            <div class="d-flex flex-column gap-2 mb-4">
+                                <p class="card-text mb-0">
+                                    <span class="badge 
+                                        {% if challenge.difficulty == 'beginner' %}bg-success
+                                        {% elif challenge.difficulty == 'easy' %}bg-info
+                                        {% elif challenge.difficulty == 'medium' %}bg-warning
+                                        {% else %}bg-danger{% endif %}">
+                                        <i class="bi bi-bar-chart me-1"></i> {{ challenge.difficulty|capitalize }}
+                                    </span>
+                                </p>
+                                <p class="card-text mb-0"><span class="badge bg-primary"><i class="bi bi-star me-1"></i> {{ challenge.score }} Points</span></p>
+                            </div>
+                            <button class="btn btn-outline-primary w-100 fw-semibold" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#challengeModal{{ challenge.id }}">
+                                <i class="bi bi-eye me-2"></i>View & Submit Flag
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <p>{{ challenge.description }}</p>
-                    <form method="POST" action="{{ url_for('main.submit_flag') }}">
-                        <input type="hidden" name="challenge_id" value="{{ challenge.id }}">
-                        <input type="text" name="flag" class="form-control" placeholder="Enter Flag" required>
-                        <button type="submit" class="btn btn-success mt-2">Submit</button>
-                    </form>
+
+                <!-- Challenge Modal -->
+                <div class="modal fade" id="challengeModal{{ challenge.id }}" tabindex="-1" aria-labelledby="challengeModalLabel{{ challenge.id }}" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content bg-dark text-white border-0 shadow-lg">
+                            <div class="modal-header border-0">
+                                <h5 class="modal-title fw-bold text-primary" id="challengeModalLabel{{ challenge.id }}">{{ challenge.title }}</h5>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <hr class="m-0">
+                            <div class="modal-body p-4">
+                                <p class="text-white mb-4">{{ challenge.description }}</p>
+                                <form id="flagForm{{ challenge.id }}" class="needs-validation" novalidate onsubmit="submitFlag(event, {{ challenge.id }})">
+                                    <input type="hidden" name="challenge_id" value="{{ challenge.id }}">
+                                
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text bg-secondary border-0">
+                                            <i class="bi bi-flag text-white"></i>
+                                        </span>
+                                        <input type="text" name="flag" class="form-control bg-dark text-white border-secondary" 
+                                               placeholder="flag{...}" required>
+                                        <div class="invalid-feedback">
+                                            Please enter a flag.
+                                        </div>
+                                    </div>
+                                
+                                    
+                                
+                                    <button type="submit" class="btn btn-success w-100 fw-semibold">
+                                        <i class="bi bi-check-circle me-2"></i>Submit Flag
+                                    </button>
+                                    <!-- Flash Message Container (Inside Modal) -->
+                                    <div id="flash-message-{{ challenge.id }}" class="mt-3"></div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                {% endfor %}
             </div>
         </div>
-    </div>
-    {% endfor %}
+        {% endfor %}
+    {% else %}
+        <div class="text-center mt-5">
+            <div class="notice bg-dark text-white">
+                <i class="bi bi-info-circle me-2"></i>No challenges available yet. Check back soon!
+            </div>
+        </div>
+    {% endif %}
 </div>
+
+<!-- Custom Styles -->
+<style>
+    .transition-hover {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .transition-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3) !important;
+    }
+    .badge {
+        font-size: 0.9rem;
+        padding: 0.4em 0.8em;
+    }
+    .bg-success {
+        background-color: #31ff49 !important; /* Bootstrap's success green */
+    }
+    .notice {
+        padding: 1rem;
+        border-radius: 0.375rem;
+        border: solid rgba(255, 255, 255, 0.303);
+        display: inline-block;
+        margin-bottom: 20px;
+        width: 80%;
+    }
+</style>
+
+<script>
+    function submitFlag(event, challengeId) {
+        event.preventDefault(); // Prevent page reload
+
+        let form = document.getElementById(`flagForm${challengeId}`);
+        let formData = new FormData(form);
+        let flashContainer = document.getElementById(`flash-message-${challengeId}`);
+
+        fetch("{{ url_for('main.submit_flag') }}", {
+            method: "POST",
+            body: formData,
+        })
+        .then(response => response.json()) 
+        .then(data => {
+            flashContainer.innerHTML = ""; // Clear previous messages
+
+            let flashMessage = document.createElement("div");
+            flashMessage.className = `alert alert-${data.category} alert-dismissible fade show`;
+            flashMessage.innerHTML = `
+                ${data.message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            `;
+
+            flashContainer.appendChild(flashMessage); // Show flash message inside modal
+
+            // Remove flash message after 3 seconds
+            setTimeout(() => {
+                flashMessage.classList.remove("show");
+                flashMessage.classList.add("fade");
+                setTimeout(() => flashMessage.remove(), 500);
+            }, 3000);
+
+            if (data.correct) {
+                document.getElementById(`challengeCard${challengeId}`).classList.add("bg-success");
+
+                // Refresh the page when the modal is closed
+                let modal = document.getElementById(`challengeModal${challengeId}`);
+                modal.addEventListener("hidden.bs.modal", () => {
+                    location.reload();
+                });
+            }
+
+            form.reset(); // Clear input field
+        })
+        .catch(error => console.error("Error:", error));
+    }
+</script>
+
+
+
+
+
+<!-- Bootstrap Form Validation -->
+
+<!-- <script>
+    
+    (function () {
+        'use strict'
+        const forms = document.querySelectorAll('.needs-validation')
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+                form.classList.add('was-validated')
+            }, false)
+        })
+    })()
+</script> -->
 {% endblock %}

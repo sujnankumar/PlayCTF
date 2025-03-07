@@ -2,15 +2,49 @@
 {% block title %}Remove User{% endblock %}
 
 {% block content %}
-<h2>Remove User</h2>
-<ul>
-    {% for user in users %}
-        <li>
-            {{ user.username }}
-            <form method="POST" action="{{ url_for('admin.remove_user', user_id=user.id) }}" class="d-inline">
-                <button type="submit" class="btn btn-danger btn-sm">Remove</button>
-            </form>
-        </li>
-    {% endfor %}
-</ul>
+<div class="container py-5">
+    <!-- Header -->
+    <div class="text-center mb-5">
+        <h2 class="display-6 fw-bold text-danger">Remove Users</h2>
+        <p class="text-muted">Permanently delete user accounts</p>
+    </div>
+
+    <!-- Users List -->
+    {% if users %}
+        <div class="card shadow-sm border-0 bg-dark">
+            <div class="card-header bg-danger text-white py-3">
+                <h4 class="mb-0 fw-semibold">Current Users</h4>
+            </div>
+            <div class="card-body p-0">
+                <ul class="list-group list-group-flush">
+                    {% for user in users %}
+                        <li class="list-group-item bg-dark text-white d-flex justify-content-between align-items-center py-3">
+                            <div>
+                                <h5 class="mb-1 fw-semibold text-primary">{{ user.username }}</h5>
+                                <small class="text-muted">ID: {{ user.id }}</small>
+                            </div>
+                            <form method="POST" action="{{ url_for('admin.remove_user', user_id=user.id) }}" 
+                                  onsubmit="return confirm('Are you sure you want to remove \'{{ user.username }}\'? This action cannot be undone.');">
+                                <button type="submit" class="btn btn-danger btn-sm d-flex align-items-center gap-2">
+                                    <i class="bi bi-trash"></i> Remove
+                                </button>
+                            </form>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {% else %}
+        <div class="alert alert-info text-center mt-4" role="alert">
+            <i class="bi bi-info-circle me-2"></i>No users available to remove.
+        </div>
+    {% endif %}
+
+    <!-- Back Button -->
+    <div class="mt-4 text-center">
+        <a href="{{ url_for('admin.admin_dashboard') }}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left me-2"></i>Back to Dashboard
+        </a>
+    </div>
+</div>
 {% endblock %}

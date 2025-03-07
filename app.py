@@ -1,6 +1,5 @@
 from flask import Flask
 from config import Config
-from models import db
 from routes import main
 from admin_routes import admin
 from flask_migrate import Migrate

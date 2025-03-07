@@ -11,6 +11,7 @@ class User(db.Model, UserMixin):
     password_hash = db.Column(db.String(128), nullable=False)
     is_admin = db.Column(db.Boolean, default=False)
     score = db.Column(db.Integer, default=0)  # Track user score
+    profile_visibility = db.Column(db.String(10), nullable=False, default="public")  # "public" or "private"
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -26,7 +27,10 @@ class Challenge(db.Model):
     category = db.Column(db.String(50), nullable=False)
     difficulty = db.Column(db.String(20), nullable=False)  # Difficulty level (Easy, Medium, Hard)
     score = db.Column(db.Integer, nullable=False)  # Points for solving the challenge
+    visibility = db.Column(db.String(10), nullable=False, default="private")  # "public" or "private"
+    
     flags = db.relationship('Flag', backref='challenge', lazy=True, cascade="all, delete")
+
 
 class Flag(db.Model):
     id = db.Column(db.Integer, primary_key=True)

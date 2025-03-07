@@ -8,8 +8,15 @@
     <p class="lead">A place for hands-on problem-solving in cybersecurity and ethical hacking.</p>
 
     <div class="mt-4">
-        <a href="{{ url_for('auth.register') }}" class="btn btn-lg btn-success me-3">Join Now</a>
-        <a href="{{ url_for('auth.login') }}" class="btn btn-lg btn-outline-light">Login</a>
+        {% if current_user.is_authenticated %}
+            <a href="{{ url_for('main.dashboard') }}" class="btn btn-lg btn-primary me-3">Challenges</a>
+            {% if current_user.is_admin %}
+                <a href="{{ url_for('admin.admin_dashboard') }}" class="btn btn-lg btn-primary me-3">Admin Dashboard</a>
+            {% endif %}
+        {% else %}
+            <a href="{{ url_for('auth.register') }}" class="btn btn-lg btn-success me-3">Join Now</a>
+            <a href="{{ url_for('auth.login') }}" class="btn btn-lg btn-outline-light">Login</a>
+        {% endif %}
     </div>
 </div>
 

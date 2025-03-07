@@ -3,25 +3,87 @@
 {% block title %}Register{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-4">
-        <h2 class="text-center">Register</h2>
-        <form method="POST">
-            {{ form.hidden_tag() }}
-            <div class="mb-3">
-                <label class="form-label">Username</label>
-                {{ form.username(class="form-control") }}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5 col-lg-4">
+            <div class="card shadow-lg border-0 bg-dark text-white">
+                <div class="card-body p-4 p-md-5">
+                    <h2 class="text-center mb-4 fw-bold text-success">Join Crypton Club</h2>
+                    <p class="text-center text-muted mb-4">Create your account to start hacking</p>
+                    
+                    <form method="POST" class="needs-validation" novalidate>
+                        {{ form.hidden_tag() }}
+                        
+                        <div class="mb-4">
+                            <label for="username" class="form-label fw-semibold">Username</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-secondary border-0">
+                                    <i class="bi bi-person text-white"></i>
+                                </span>
+                                {{ form.username(class="form-control border-secondary", placeholder="Choose a username", required=True) }}
+                                <div class="invalid-feedback">
+                                    Please enter a username.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="password" class="form-label fw-semibold">Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-secondary border-0">
+                                    <i class="bi bi-lock text-white"></i>
+                                </span>
+                                {{ form.password(class="form-control border-secondary", placeholder="Create a password", required=True) }}
+                                <div class="invalid-feedback">
+                                    Please enter a password.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="confirm_password" class="form-label fw-semibold">Confirm Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-secondary border-0">
+                                    <i class="bi bi-lock-fill text-white"></i>
+                                </span>
+                                {{ form.confirm_password(class="form-control border-secondary", placeholder="Confirm your password", required=True) }}
+                                <div class="invalid-feedback">
+                                    Please confirm your password.
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-success w-100 py-2 fw-semibold d-flex align-items-center justify-content-center gap-2">
+                            <i class="bi bi-person-plus"></i> {{ form.submit.label }}
+                        </button>
+
+                        <div class="text-center mt-3">
+                            <small class="text-muted">
+                                Already have an account? 
+                                <a href="{{ url_for('auth.login') }}" class="text-success text-decoration-none fw-semibold">Login</a>
+                            </small>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="mb-3">
-                <label class="form-label">Password</label>
-                {{ form.password(class="form-control") }}
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Confirm Password</label>
-                {{ form.confirm_password(class="form-control") }}
-            </div>
-            <button type="submit" class="btn btn-success w-100">{{ form.submit.label }}</button>
-        </form>
+        </div>
     </div>
 </div>
+
+<!-- Bootstrap Form Validation -->
+<script>
+    (function () {
+        'use strict'
+        const forms = document.querySelectorAll('.needs-validation')
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+                form.classList.add('was-validated')
+            }, false)
+        })
+    })()
+</script>
 {% endblock %}

@@ -3,21 +3,92 @@
 {% block title %}Admin Dashboard{% endblock %}
 
 {% block content %}
-<h2 class="text-center">Admin Dashboard</h2>
+<div class="container-fluid py-5 bg-light min-vh-100">
+    <div class="row justify-content-center">
+        <div class="col-xl-10 col-lg-11">
+            <!-- Header -->
+            <div class="text-center mb-5">
+                <h1 class="display-5 fw-bold text-primary mb-2">Admin Dashboard</h1>
+                <p class="text-muted lead">Manage challenges and users efficiently</p>
+            </div>
 
-<div class="container mt-4">
-    <h4>Challenge Management</h4>
-    <ul>
-        <li><a href="{{ url_for('admin.add_challenge_page') }}" class="btn btn-success">Add Challenge</a></li>
-        <li><a href="{{ url_for('admin.remove_challenge_page') }}" class="btn btn-danger">Remove Challenge</a></li>
-        <li><a href="{{ url_for('admin.edit_challenge_page') }}" class="btn btn-warning">Edit Challenge</a></li>
-    </ul>
+            <!-- Management Sections -->
+            <div class="row g-4">
+                <!-- Challenge Management -->
+                <div class="col-md-6">
+                    <div class="card shadow-sm border-0 h-100">
+                        <div class="card-header bg-primary text-white py-3">
+                            <h4 class="mb-0 fw-semibold">Challenge Management</h4>
+                        </div>
+                        <div class="card-body p-4">
+                            <p class="text-muted mb-4">Create, modify, or remove challenges</p>
+                            <div class="d-flex flex-wrap gap-2">
+                                <a href="{{ url_for('admin.add_challenge_page') }}" 
+                                   class="btn btn-success btn-lg flex-grow-1 d-flex align-items-center justify-content-center gap-2">
+                                    <i class="bi bi-plus-circle"></i> Add Challenge
+                                </a>
+                                <a href="{{ url_for('admin.remove_challenge_page') }}" 
+                                   class="btn btn-danger btn-lg flex-grow-1 d-flex align-items-center justify-content-center gap-2">
+                                    <i class="bi bi-trash"></i> Remove Challenge
+                                </a>
+                                <a href="{{ url_for('admin.edit_challenge_page') }}" 
+                                   class="btn btn-warning btn-lg flex-grow-1 d-flex align-items-center justify-content-center gap-2">
+                                    <i class="bi bi-pencil-square"></i> Edit Challenge
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-    <h4>User Management</h4>
-    <ul>
-        <li><a href="{{ url_for('admin.add_user_page') }}" class="btn btn-success">Add User</a></li>
-        <li><a href="{{ url_for('admin.remove_user_page') }}" class="btn btn-danger">Remove User</a></li>
-        <li><a href="{{ url_for('admin.edit_user_page') }}" class="btn btn-warning">Edit User</a></li>
-    </ul>
+                <!-- User Management -->
+                <div class="col-md-6">
+                    <div class="card shadow-sm border-0 h-100">
+                        <div class="card-header bg-primary text-white py-3">
+                            <h4 class="mb-0 fw-semibold">User Management</h4>
+                        </div>
+                        <div class="card-body p-4">
+                            <p class="text-muted mb-4">Administer user accounts</p>
+                            <div class="d-flex flex-wrap gap-2">
+                                <a href="{{ url_for('admin.add_user_page') }}" 
+                                   class="btn btn-success btn-lg flex-grow-1 d-flex align-items-center justify-content-center gap-2">
+                                    <i class="bi bi-person-plus"></i> Add User
+                                </a>
+                                <a href="{{ url_for('admin.remove_user_page') }}" 
+                                   class="btn btn-danger btn-lg flex-grow-1 d-flex align-items-center justify-content-center gap-2">
+                                    <i class="bi bi-person-x"></i> Remove User
+                                </a>
+                                <a href="{{ url_for('admin.edit_user_page') }}" 
+                                   class="btn btn-warning btn-lg flex-grow-1 d-flex align-items-center justify-content-center gap-2">
+                                    <i class="bi bi-person-gear"></i> Edit User
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Stats (Optional Enhancement) -->
+            <div class="row mt-5 g-4">
+                <div class="col-md-4">
+                    <div class="card shadow-sm border-0 text-center p-4">
+                        <h5 class="text-primary fw-semibold">Total Challenges</h5>
+                        <h3 class="text-dark fw-bold">42</h3>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card shadow-sm border-0 text-center p-4">
+                        <h5 class="text-primary fw-semibold">Active Users</h5>
+                        <h3 class="text-dark fw-bold">156</h3>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card shadow-sm border-0 text-center p-4">
+                        <h5 class="text-primary fw-semibold">Solves Today</h5>
+                        <h3 class="text-dark fw-bold">23</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

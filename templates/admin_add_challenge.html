@@ -2,14 +2,116 @@
 {% block title %}Add Challenge{% endblock %}
 
 {% block content %}
-<h2>Add a New Challenge</h2>
-<form method="POST" action="{{ url_for('admin.add_challenge') }}">
-    <input type="text" name="title" placeholder="Title" class="form-control mb-2">
-    <textarea name="description" placeholder="Description" class="form-control mb-2"></textarea>
-    <input type="text" name="category" placeholder="Category" class="form-control mb-2">
-    <input type="text" name="difficulty" placeholder="Difficulty" class="form-control mb-2">
-    <input type="number" name="score" placeholder="Score" class="form-control mb-2">
-    <input type="text" name="flags" placeholder="Flags (comma-separated)" class="form-control mb-2">
-    <button type="submit" class="btn btn-success">Add Challenge</button>
-</form>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white text-center py-4">
+                    <h2 class="mb-0 fw-bold">Create New Challenge</h2>
+                    <p class="text-white-50 mt-2 mb-0">Add an exciting challenge for participants</p>
+                </div>
+                <div class="card-body p-4">
+                    <form method="POST" action="{{ url_for('admin.add_challenge') }}" class="needs-validation" novalidate>
+                        <div class="mb-4">
+                            <label for="title" class="form-label fw-semibold">Challenge Title</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-trophy"></i></span>
+                                <input type="text" id="title" name="title" class="form-control" 
+                                       placeholder="Enter challenge title" required>
+                                <div class="invalid-feedback">
+                                    Please enter a challenge title.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="description" class="form-label fw-semibold">Description</label>
+                            <textarea id="description" name="description" class="form-control" 
+                                      rows="4" placeholder="Describe the challenge..." required></textarea>
+                            <div class="invalid-feedback">
+                                Please provide a description.
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <label for="category" class="form-label fw-semibold">Category</label>
+                                <input type="text" id="category" name="category" class="form-control" 
+                                       placeholder="e.g., Web, Crypto, Pwn" required>
+                                <div class="invalid-feedback">
+                                    Please specify a category.
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="difficulty" class="form-label fw-semibold">Difficulty</label>
+                                <select id="difficulty" name="difficulty" class="form-select" required>
+                                    <option value="" selected disabled>Select difficulty</option>
+                                    <option value="beginner">Beginner</option>
+                                    <option value="easy">Easy</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="hard">Hard</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    Please select a difficulty level.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <label for="score" class="form-label fw-semibold">Score Value</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-star"></i></span>
+                                    <input type="number" id="score" name="score" class="form-control" 
+                                           placeholder="Points" min="1" required>
+                                    <div class="invalid-feedback">
+                                        Please enter a valid score.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="flags" class="form-label fw-semibold">Flags</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-flag"></i></span>
+                                    <input type="text" id="flags" name="flags" class="form-control" 
+                                           placeholder="flag{...}, flag{...}" required>
+                                    <div class="invalid-feedback">
+                                        Please enter at least one flag.
+                                    </div>
+                                </div>
+                                <small class="text-muted">Enter comma-separated flags</small>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2">
+                            <button type="reset" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-counterclockwise"></i> Reset
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-plus-circle"></i> Add Challenge
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap form validation script -->
+<script>
+(function () {
+    'use strict'
+    var forms = document.querySelectorAll('.needs-validation')
+    Array.prototype.slice.call(forms).forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+            }
+            form.classList.add('was-validated')
+        }, false)
+    })
+})()
+</script>
 {% endblock %}
