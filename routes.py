@@ -17,13 +17,15 @@ def home():
 @main.route('/challenges')
 @login_required
 def dashboard():
-    # Get all challenges
-    challenges = Challenge.query.all()
+    if current_user.is_admin:
+        # Get all challenges for admin
+        challenges = Challenge.query.all()
+    else:
+        # Get only public challenges for non-admin users
+        challenges = Challenge.query.filter_by(visibility="public").all()
 
     # Get IDs of challenges the user has correctly solved
     solved_challenge_ids = {int(sub.challenge_id) for sub in Submission.query.filter_by(user_id=current_user.id, correct=True).all()}
-
-    print(solved_challenge_ids)
 
     return render_template('dashboard.html', challenges=challenges, solved_challenges=solved_challenge_ids)
 

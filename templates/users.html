@@ -7,7 +7,7 @@
     <!-- Header -->
     <div class="text-center mb-5">
         <h1 class="display-4 fw-bold text-primary mb-2">Community Hub</h1>
-        <p class="text-muted lead">Explore our talented hackers</p>
+        <p class="text-white lead">Explore our talented hackers</p>
     </div>
 
     <!-- Search Form -->
@@ -19,7 +19,7 @@
                         <i class="bi bi-search"></i>
                     </span>
                     <input type="text" name="search" class="form-control bg-dark text-white border-secondary" 
-                           placeholder="Search users..." value="{{ search_query }}" 
+                           placeholder="Search users..." value="{{ search_query }}" style="color: white;" 
                            aria-label="Search users">
                 </div>
                 <button type="submit" class="btn btn-primary fw-semibold">
@@ -70,7 +70,7 @@
             <!-- Empty State -->
             {% if not users %}
             <div class="text-center mt-4">
-                <div class="alert alert-info bg-dark border-secondary text-muted" role="alert">
+                <div class="alert alert-info bg-dark border-secondary text-white" role="alert">
                     <i class="bi bi-info-circle me-2"></i>
                     {% if search_query %}
                         No users found matching "{{ search_query }}".
@@ -111,6 +111,7 @@
     .btn-primary {
         border-radius: 8px;
     }
+    
 </style>
 
 <!-- Bootstrap Tooltip Initialization -->

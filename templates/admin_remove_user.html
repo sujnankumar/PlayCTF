@@ -6,7 +6,7 @@
     <!-- Header -->
     <div class="text-center mb-5">
         <h2 class="display-6 fw-bold text-danger">Remove Users</h2>
-        <p class="text-muted">Permanently delete user accounts</p>
+        <p>Permanently delete user accounts</p>
     </div>
 
     <!-- Users List -->
@@ -21,7 +21,7 @@
                         <li class="list-group-item bg-dark text-white d-flex justify-content-between align-items-center py-3">
                             <div>
                                 <h5 class="mb-1 fw-semibold text-primary">{{ user.username }}</h5>
-                                <small class="text-muted">ID: {{ user.id }}</small>
+                                <small>ID: {{ user.id }}</small>
                             </div>
                             <form method="POST" action="{{ url_for('admin.remove_user', user_id=user.id) }}" 
                                   onsubmit="return confirm('Are you sure you want to remove \'{{ user.username }}\'? This action cannot be undone.');">

@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% block title %}Manage Visibility{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Header -->
+    <div class="text-center mb-5">
+        <h1 class="display-6 fw-bold text-primary">Manage Visibility</h1>
+        <p class="text-muted">Control user and challenge visibility settings</p>
+    </div>
+
+    <!-- Users Section -->
+    <div class="card shadow-sm border-0 bg-dark text-white mb-5">
+        <div class="card-header bg-primary text-white py-3">
+            <h4 class="mb-0 fw-semibold">Users</h4>
+        </div>
+        <div class="card-body p-0">
+            {% if users %}
+                <ul class="list-group list-group-flush">
+                    {% for user in users %}
+                    <li class="list-group-item bg-dark text-white d-flex justify-content-between align-items-center py-3">
+                        <div>
+                            <h5 class="mb-1 fw-semibold text-primary">{{ user.username }}</h5>
+                            <small class="text-muted">ID: {{ user.id }}</small>
+                        </div>
+                        <form method="POST" action="{{ url_for('admin.update_user_visibility', user_id=user.id) }}" class="d-flex align-items-center gap-2">
+                            <input type="hidden" name="visibility" value="{% if user.profile_visibility == 'public' %}private{% else %}public{% endif %}">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="userVisibility{{ user.id }}" 
+                                       {% if user.profile_visibility == 'public' %}checked{% endif %} 
+                                       onchange="this.form.submit()">
+                                <label class="form-check-label" for="userVisibility{{ user.id }}">
+                                    {{ user.profile_visibility|capitalize }}
+                                </label>
+                            </div>
+                        </form>
+                    </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <div class="text-center py-3">
+                    <p class="text-muted">No users available.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Challenges Section -->
+    <div class="card shadow-sm border-0 bg-dark text-white">
+        <div class="card-header bg-primary text-white py-3">
+            <h4 class="mb-0 fw-semibold">Challenges</h4>
+        </div>
+        <div class="card-body p-0">
+            {% if challenges %}
+                <ul class="list-group list-group-flush">
+                    {% for challenge in challenges %}
+                    <li class="list-group-item bg-dark text-white d-flex justify-content-between align-items-center py-3">
+                        <div>
+                            <h5 class="mb-1 fw-semibold text-primary">{{ challenge.title }}</h5>
+                            <small class="text-muted">Category: {{ challenge.category }} | ID: {{ challenge.id }}</small>
+                        </div>
+                        <form method="POST" action="{{ url_for('admin.update_challenge_visibility', challenge_id=challenge.id) }}" class="d-flex align-items-center gap-2">
+                            <input type="hidden" name="visibility" value="{% if challenge.visibility == 'public' %}private{% else %}public{% endif %}">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="challengeVisibility{{ challenge.id }}" 
+                                       {% if challenge.visibility == 'public' %}checked{% endif %} 
+                                       onchange="this.form.submit()">
+                                <label class="form-check-label" for="challengeVisibility{{ challenge.id }}">
+                                    {{ challenge.visibility|capitalize }}
+                                </label>
+                            </div>
+                        </form>
+                    </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <div class="text-center py-3">
+                    <p class="text-muted">No challenges available.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Back Button -->
+    <div class="mt-4 text-center">
+        <a href="{{ url_for('admin.admin_dashboard') }}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left me-2"></i>Back to Dashboard
+        </a>
+    </div>
+</div>
+
+<!-- Custom Styles -->
+<style>
+    .form-check-input:checked {
+        background-color: #007bff; /* Primary color for toggle */
+        border-color: #007bff;
+    }
+    .form-check-input:focus {
+        box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+    }
+</style>
+{% endblock %}

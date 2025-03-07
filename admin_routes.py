@@ -1,8 +1,8 @@
 from flask import render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
-from models import Challenge, User, Flag, db
+from models import Challenge, User, Flag, db, Submission
 from flask import Blueprint
-from datetime import datetime
+from datetime import datetime, date
 
 
 admin = Blueprint('admin', __name__)
@@ -13,12 +13,43 @@ def admin_only():
         flash("Unauthorized access!", "danger")
         return redirect(url_for('main.dashboard'))
     
-# admin dashboard 
+# Admin Dashboard
 @admin.route('/admin_dashboard')
 @login_required
 def admin_dashboard():
     admin_only()
-    return render_template('admin_dashboard.html')
+    
+    # Quick Stats Data
+    total_challenges = Challenge.query.count()
+    public_challenges = Challenge.query.filter_by(visibility='public').count()
+    private_challenges = Challenge.query.filter_by(visibility='private').count()
+    
+    active_users = User.query.count()
+    public_users = User.query.filter_by(profile_visibility='public').count()
+    private_users = User.query.filter_by(profile_visibility='private').count()
+    
+    solves_today = Submission.query.filter_by(correct=True).filter(
+        db.func.date(Submission.timestamp) == date.today()
+    ).count()
+    solves_today_public_users = Submission.query.filter_by(correct=True).join(User).filter(
+        User.profile_visibility == 'public',
+        db.func.date(Submission.timestamp) == date.today()
+    ).count()
+    solves_today_private_users = Submission.query.filter_by(correct=True).join(User).filter(
+        User.profile_visibility == 'private',
+        db.func.date(Submission.timestamp) == date.today()
+    ).count()
+    
+    return render_template('admin_dashboard.html', 
+                           total_challenges=total_challenges,
+                           public_challenges=public_challenges,
+                           private_challenges=private_challenges,
+                           active_users=active_users,
+                           public_users=public_users,
+                           private_users=private_users,
+                           solves_today=solves_today,
+                           solves_today_public_users=solves_today_public_users,
+                           solves_today_private_users=solves_today_private_users)
 
 # Challenge Management Pages
 @admin.route('/admin/challenges/add')
@@ -66,6 +97,14 @@ def edit_user_page():
     users = User.query.all()
     return render_template('admin_edit_user.html', users=users)
 
+# Visibility Management Page
+@admin.route('/admin/visibility')
+@login_required
+def visibility_page():
+    admin_only()
+    users = User.query.all()
+    challenges = Challenge.query.all()
+    return render_template('admin_visibility.html', users=users, challenges=challenges)
 
 # add challenges
 @admin.route('/admin/challenges/add', methods=['POST'])
@@ -188,3 +227,34 @@ def edit_user(user_id):
     db.session.commit()
     flash('User updated successfully', 'info')
     return redirect(url_for('admin.admin_dashboard'))
+
+
+# Update User Visibility
+@admin.route('/admin/users/visibility/<int:user_id>', methods=['POST'])
+@login_required
+def update_user_visibility(user_id):
+    admin_only()
+    user = User.query.get_or_404(user_id)
+    new_visibility = request.form.get('visibility')
+    if new_visibility in ['public', 'private']:
+        user.profile_visibility = new_visibility
+        db.session.commit()
+        flash(f"User {user.username}'s visibility updated to {new_visibility}", "success")
+    else:
+        flash("Invalid visibility value", "danger")
+    return redirect(url_for('admin.visibility_page'))
+
+# Update Challenge Visibility
+@admin.route('/admin/challenges/visibility/<int:challenge_id>', methods=['POST'])
+@login_required
+def update_challenge_visibility(challenge_id):
+    admin_only()
+    challenge = Challenge.query.get_or_404(challenge_id)
+    new_visibility = request.form.get('visibility')
+    if new_visibility in ['public', 'private']:
+        challenge.visibility = new_visibility
+        db.session.commit()
+        flash(f"Challenge {challenge.title}'s visibility updated to {new_visibility}", "success")
+    else:
+        flash("Invalid visibility value", "danger")
+    return redirect(url_for('admin.visibility_page'))

@@ -14,6 +14,7 @@
 
             <!-- Management Sections -->
             <div class="row g-4">
+                
                 <!-- Challenge Management -->
                 <div class="col-md-6">
                     <div class="card shadow-sm border-0 h-100">
@@ -66,26 +67,76 @@
                     </div>
                 </div>
             </div>
+                       
 
-            <!-- Quick Stats (Optional Enhancement) -->
+            <!-- Quick Stats -->
             <div class="row mt-5 g-4">
                 <div class="col-md-4">
                     <div class="card shadow-sm border-0 text-center p-4">
                         <h5 class="text-primary fw-semibold">Total Challenges</h5>
-                        <h3 class="text-dark fw-bold">42</h3>
+                        <h3 class="fw-bold">{{ total_challenges }}</h3>
+                        <div class="row mt-3 g-2">
+                            <div class="col-6">
+                                <div class="card bg-secondary text-white p-2">
+                                    <small class="fw-semibold">Public</small>
+                                    <h6 class="mb-0">{{ public_challenges }}</h6>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="card bg-secondary text-white p-2">
+                                    <small class="fw-semibold">Private</small>
+                                    <h6 class="mb-0">{{ private_challenges }}</h6>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="card shadow-sm border-0 text-center p-4">
                         <h5 class="text-primary fw-semibold">Active Users</h5>
-                        <h3 class="text-dark fw-bold">156</h3>
+                        <h3 class="fw-bold">{{ active_users }}</h3>
+                        <div class="row mt-3 g-2">
+                            <div class="col-6">
+                                <div class="card bg-secondary text-white p-2">
+                                    <small class="fw-semibold">Public</small>
+                                    <h6 class="mb-0">{{ public_users }}</h6>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="card bg-secondary text-white p-2">
+                                    <small class="fw-semibold">Private</small>
+                                    <h6 class="mb-0">{{ private_users }}</h6>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="card shadow-sm border-0 text-center p-4">
                         <h5 class="text-primary fw-semibold">Solves Today</h5>
-                        <h3 class="text-dark fw-bold">23</h3>
+                        <h3 class="fw-bold">{{ solves_today }}</h3>
+                        <div class="row mt-3 g-2">
+                            <div class="col-6">
+                                <div class="card bg-secondary text-white p-2">
+                                    <small class="fw-semibold">Public</small>
+                                    <h6 class="mb-0">{{ solves_today_public_users }}</h6>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="card bg-secondary text-white p-2">
+                                    <small class="fw-semibold">Private</small>
+                                    <h6 class="mb-0">{{ solves_today_private_users }}</h6>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                </div>
+            </div>
+            <div class="row mt-4 g-4 justify-content-center">
+                <div class="col-md-3">
+                    <a href="{{ url_for('admin.visibility_page') }}" class="btn btn-info w-100 py-3">
+                        <i class="bi bi-eye me-2"></i>Manage Visibility
+                    </a>
                 </div>
             </div>
         </div>

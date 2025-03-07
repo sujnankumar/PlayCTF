@@ -1,6 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import datetime
 
 
 db = SQLAlchemy()
@@ -44,5 +45,6 @@ class Submission(db.Model):
     challenge_id = db.Column(db.Integer, db.ForeignKey('challenge.id'), nullable=False)
     submitted_flag = db.Column(db.String(255), nullable=False)
     correct = db.Column(db.Boolean, default=False)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
     user = db.relationship('User', backref=db.backref('submissions', lazy=True))
     challenge = db.relationship('Challenge', backref=db.backref('submissions', lazy=True))
