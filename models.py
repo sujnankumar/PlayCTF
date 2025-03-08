@@ -29,8 +29,10 @@ class Challenge(db.Model):
     difficulty = db.Column(db.String(20), nullable=False)  # Difficulty level (Easy, Medium, Hard)
     score = db.Column(db.Integer, nullable=False)  # Points for solving the challenge
     visibility = db.Column(db.String(10), nullable=False, default="private")  # "public" or "private"
-    
+    file_link = db.Column(db.Text, nullable=True)
+
     flags = db.relationship('Flag', backref='challenge', lazy=True, cascade="all, delete")
+
 
 
 class Flag(db.Model):

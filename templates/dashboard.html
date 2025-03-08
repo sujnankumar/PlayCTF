@@ -37,11 +37,6 @@
                                 </p>
                                 <p class="card-text mb-0"><span class="badge bg-primary"><i class="bi bi-star me-1"></i> {{ challenge.score }} Points</span></p>
                             </div>
-                            <!-- <button class="btn btn-outline-primary w-100 fw-semibold" 
-                                    data-bs-toggle="modal" 
-                                    data-bs-target="#challengeModal{{ challenge.id }}">
-                                <i class="bi bi-eye me-2"></i>View & Submit Flag
-                            </button> -->
                         </div>
                     </div>
                 </div>
@@ -56,10 +51,16 @@
                             </div>
                             <hr class="m-0">
                             <div class="modal-body p-4">
-                                <p class="text-white mb-4">{{ challenge.description }}</p>
+                                <p class="text-white mb-4" style="white-space: pre-wrap;">{{ challenge.description }}</p>
+                                {% if challenge.file_link and challenge.file_link != '' %}
+                                <div class="mb-4">
+                                    <a href="{{ challenge.file_link }}" class="text-primary text-decoration-none" target="_blank" rel="noopener noreferrer">
+                                        <i class="bi bi-file-earmark-arrow-down me-2"></i>Download Attachment
+                                    </a>
+                                </div>
+                                {% endif %}
                                 <form id="flagForm{{ challenge.id }}" class="needs-validation" novalidate onsubmit="submitFlag(event, {{ challenge.id }})">
                                     <input type="hidden" name="challenge_id" value="{{ challenge.id }}">
-                                
                                     <div class="input-group mb-3">
                                         <span class="input-group-text bg-secondary border-0">
                                             <i class="bi bi-flag text-white"></i>
@@ -70,9 +71,6 @@
                                             Please enter a flag.
                                         </div>
                                     </div>
-                                
-                                    
-                                
                                     <button type="submit" class="btn btn-success w-100 fw-semibold">
                                         <i class="bi bi-check-circle me-2"></i>Submit Flag
                                     </button>
@@ -170,26 +168,4 @@
     }
 </script>
 
-
-
-
-
-<!-- Bootstrap Form Validation -->
-
-<!-- <script>
-    
-    (function () {
-        'use strict'
-        const forms = document.querySelectorAll('.needs-validation')
-        Array.from(forms).forEach(form => {
-            form.addEventListener('submit', event => {
-                if (!form.checkValidity()) {
-                    event.preventDefault()
-                    event.stopPropagation()
-                }
-                form.classList.add('was-validated')
-            }, false)
-        })
-    })()
-</script> -->
 {% endblock %}

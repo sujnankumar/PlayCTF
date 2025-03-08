@@ -62,7 +62,7 @@
                                                           required>{{ challenge.description }}</textarea>
                                                 <div class="invalid-feedback">Please enter a description.</div>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <label for="difficulty{{ challenge.id }}" class="form-label fw-semibold">Difficulty</label>
                                                 <select id="difficulty{{ challenge.id }}" name="difficulty" 
                                                         class="form-select bg-dark text-white border-secondary" required>
@@ -73,12 +73,17 @@
                                                 </select>
                                                 <div class="invalid-feedback">Please select a difficulty.</div>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <label for="score{{ challenge.id }}" class="form-label fw-semibold">Score</label>
                                                 <input type="number" id="score{{ challenge.id }}" name="score" 
                                                        value="{{ challenge.score }}" class="form-control bg-dark text-white border-secondary" 
                                                        min="1" required>
                                                 <div class="invalid-feedback">Please enter a valid score.</div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="file_link{{ challenge.id }}" class="form-label fw-semibold">File Link</label>
+                                                <input type="text" id="file_link{{ challenge.id }}" name="file_link" 
+                                                       value="{{ challenge.file_link or '' }}" class="form-control bg-dark text-white border-secondary">
                                             </div>
                                             <div class="col-12">
                                                 <label for="flags{{ challenge.id }}" class="form-label fw-semibold">Flags (comma-separated)</label>

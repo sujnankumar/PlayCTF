@@ -121,7 +121,7 @@ def add_challenge():
     flags = request.form.get('flags')  # Get flags as string
     flags_list = flags.split(',') if flags else []  # Convert to list
 
-
+    print(description)
     new_challenge = Challenge(title=title, description=description, category=category, difficulty=difficulty, score=score)
     db.session.add(new_challenge)
     db.session.commit()
@@ -147,6 +147,7 @@ def edit_challenge(challenge_id):
     challenge.category = request.form.get('category')
     challenge.difficulty = request.form.get('difficulty')
     challenge.score = int(request.form.get('score'))
+    challenge.file_link = request.form.get('file_link')
 
     # Update flags
     flags = request.form.get('flags')
